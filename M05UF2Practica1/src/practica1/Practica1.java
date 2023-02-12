@@ -34,9 +34,9 @@ public class Practica1 {
 
             do {
                 System.out.println("\n Operació? (Indica el signe)");
-                System.out.println("+ = sumar \n - = restar \n"
-                        + " x = multiplicar \n / = dividir \n * = elevar primer num al segon num."
-                        + "\n % = residu");
+                System.out.println("(+) - Sumar \n(-) - Restar\n"
+                        + "(x) - Multiplicar\n(/) - Dividir\n(*) - Elevar primer num al segon num."
+                        + "\n(%) - Residu");
                 operacion = sc.nextLine();
                 if (operacion.equals("+") || operacion.equals("-") || operacion.equals("x")
                         || operacion.equals("X") || operacion.equals("/") || operacion.equals("%")

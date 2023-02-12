@@ -13,24 +13,19 @@ import java.util.Scanner;
  */
 public class Practica1 {
 
+    public static Scanner sc = new Scanner(System.in);
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         double res = 0;
         String operacion;
         boolean comprobar = false;
 
         do {
 
-            String numero1;
-            do {
-                System.out.println("\n Introdueix el primer numero. ");
-                numero1 = sc.nextLine();
-            } while (!numero1.matches("[+-]?[\\d]*[.]?[\\d]+"));
-            double nume1 = Double.parseDouble(numero1);
-            double n1 = new Double(numero1);
+            double n1 = pedirNumero("primer");
 
             do {
                 System.out.println("\n Operació? (Indica el signe)");
@@ -47,13 +42,7 @@ public class Practica1 {
                 }
             } while (comprobar != true);
 
-            String numero2;
-            do {
-                System.out.println("\n Introdueix el segon numero.");
-                numero2 = sc.nextLine();
-            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-            double nume2 = Double.parseDouble(numero2);
-            double n2 = new Double(numero2);
+            double n2 = pedirNumero("segon");
 
             do {
                 comprobar = true;
@@ -69,53 +58,70 @@ public class Practica1 {
                         res = n1 * n2;
                         break;
                     case "/":
-                        while (n2 == 0) {
-                            do {
-                                System.err.println(" Al denominador hi ha un zero \n"
-                                        + "per a  evitar errors coloca un altre valor.");
-                                numero2 = sc.nextLine();
-                            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-                            nume2 = Double.parseDouble(numero2);
-                            n2 = new Double(numero2);
-                        }
+                        n2 = comprueba(n2, "segon");
                         res = n1 / n2;
                         break;
                     case "*":
-                        res = Math.pow(n1, n1);
+                        res = Math.pow(n1, n2);
                         break;
                     case "%":
-                        while (n2 == 0) {
-                            do {
-                                System.err.println(" Al denominador hi ha un zero \n"
-                                        + "per a  evitar errors coloca un altre valor.");
-                                numero2 = sc.nextLine();
-                            } while (!numero2.matches("[+-]?[\\d]*[.]?[\\d]+"));
-                            nume2 = Double.parseDouble(numero2);
-                            n2 = new Double(numero2);
-                        }
+                        n2 = comprueba(n2, "segon");
                         res = n1 % n2;
                         break;
                 }
             } while (comprobar != true);
 
-            System.out.println("(" + numero1 + ") " + operacion + " (" + numero2 + ")" + " = " + res);
+            System.out.println("(" + n1 + ") " + operacion + " (" + n2 + ")" + " = " + res);
             System.out.println("\n Vols continuar operant? \n");
             System.out.println(" [s/n]");
-            do {
-                comprobar = true;
-                operacion = sc.nextLine();
 
-                switch (operacion) {
-                    case "s":
-                    case "S":
-                    case "n":
-                    case "N":
-                        break;
-                    default:
-                        System.err.println("\n Error, posa un valor vàlid. \n");
-                        comprobar = false;
-                }
-            } while (comprobar != true);
-        } while (operacion.equals("s") || operacion.equals("S"));
+        } while (salir());
+    }
+
+    public static double pedirNumero(String numero) {
+        String valor = "";
+
+        do {
+            System.out.println("\n Introdueix el " + numero + " numero. ");
+            valor = sc.nextLine();
+        } while (!valor.matches("[+-]?[\\d]*[.]?[\\d]+"));
+        double temp = Double.parseDouble(valor);
+        double num = new Double(valor);
+
+        return num;
+    }
+
+    public static double comprueba(double numero, String posicion) {
+
+        while (numero == 0) {
+            System.err.println(" Al denominador hi ha un zero per a  evitar errors coloca un altre valor.");
+            numero = pedirNumero(posicion);
+
+        }
+        return numero;
+    }
+
+    public static Boolean salir() {
+        boolean comprobar = false;
+
+        String salir = sc.nextLine();
+        while (!(salir.equals("S") || salir.equals("s") || salir.equals("N") || salir.equals("n"))) {
+            System.err.println("\n Error, posa un valor vàlid. \n");
+            salir = sc.nextLine();
+        }
+        switch (salir) {
+            case "s":
+            case "S":
+                comprobar = true;
+                break;
+            case "n":
+            case "N":
+                System.err.println("\nFins aviat!");
+                break;
+            default:
+                comprobar = false;
+        }
+
+        return comprobar;
     }
 }
